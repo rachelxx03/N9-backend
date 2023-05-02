@@ -15,6 +15,13 @@ class ContentController extends Controller
      *
      * @return mixed[]
      */
+
+    public function getAll (){
+        $results = DB::select('SELECT * FROM contents');
+        return response()->json($results);
+
+
+    }
     public function index()
 
     {
@@ -26,6 +33,12 @@ class ContentController extends Controller
     public function getCatagory(Request $request): \Illuminate\Http\JsonResponse
     {
         $category = $request->input('catagory');
+        //viet ro cau lenh ra
+        // tach ra thanh 2 bang
+        // nguoi dung dong gop xong co phan hoi
+        //them phan sua bai
+        // them dang nhap admin
+        // admin duoc set luon trong code back end
         $contents = DB::table('contents')->where('catagory', '=', $category)->get();
         return response()->json($contents);
 
@@ -115,8 +128,22 @@ class ContentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $content = Content::findOrFail($id);
+
+        $content->catagory = $request->input('catagory');
+        $content->title = $request->input('title');
+        $content->subtitle = $request->input('subtitle');
+        $content->imag = $request->input('imag');
+        $content->mainContent = $request->input('mainContent');
+
+        $content->save();
+
+        return response()->json([
+            'message' => 'Content updated successfully',
+            'content' => $content
+        ]);
     }
+
 
     /**
      * Remove the specified resource from storage.

@@ -23,6 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/content', [ContentController::class,'getCatagory']);
 Route::post('/postContent', [ContentController::class,'store']);
 Route::get('/getDetail', [ContentController::class,'getObjectById']);
+Route::get('/getAll', [ContentController::class,'getAll']);
+Route::put('/update/{id}', [ContentController::class, 'update']);
 Route::post('/posts', [ControbuteController::class,'store']);
 
 
