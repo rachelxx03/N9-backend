@@ -20,11 +20,17 @@ use App\Http\Controllers\ControbuteController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+// lay tu co so du lieu
 Route::get('/content', [ContentController::class,'getCatagory']);
+// lưu bài
 Route::post('/postContent', [ContentController::class,'store']);
+// đọc báo
 Route::get('/getDetail', [ContentController::class,'getObjectById']);
+//lấy tất cả bài viết
 Route::get('/getAll', [ContentController::class,'getAll']);
+// cập nhật thay đổi khi sửa
 Route::put('/update/{id}', [ContentController::class, 'update']);
+//lưu vào csdl của phần đogns góp
 Route::post('/posts', [ControbuteController::class,'store']);
 
 
