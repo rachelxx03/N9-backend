@@ -25,7 +25,11 @@ class ContentController extends Controller
     public function index()
 
     {
-        $contents = Content::all()->toArray();
+//        $contents =        Content::all()->toArray();
+
+//        DB::select('SELECT * FROM contents');
+        $results = DB::select('SELECT * FROM contents');
+        $contents = json_decode(json_encode($results), true);
         return $contents;
         //
     }
@@ -33,13 +37,8 @@ class ContentController extends Controller
     public function getCatagory(Request $request): \Illuminate\Http\JsonResponse
     {
         $category = $request->input('catagory');
-        //viet ro cau lenh ra
-        // tach ra thanh 2 bang
-        // nguoi dung dong gop xong co phan hoi
-        //them phan sua bai
-        // them dang nhap admin
-        // admin duoc set luon trong code back end
-        $contents = DB::table('contents')->where('catagory', '=', $category)->get();
+        $contents = DB::select('SELECT * FROM contents WHERE catagory = ?', [$category]);
+//        $contents = DB::table('contents')->where('catagory', '=', $category)->get();
         return response()->json($contents);
 
     }
@@ -51,7 +50,9 @@ class ContentController extends Controller
      */
 
     public function getObjectById(Request $request) {
+
         $id = $request->input('id');
+
         $ListOfObject = $this->index();
         foreach ( $ListOfObject as $object)
             if($object['id'] == $id)
@@ -71,13 +72,7 @@ class ContentController extends Controller
     public function store(Request $request)
     {
 
-        $this->validate($request, [
-            'catagory'    =>  'required',
-            'title'     =>  'required',
-            'subtitle'     =>  'required',
-            'imag'     =>  'required',
-            'mainContent'     =>  'required',
-        ]);
+
         $content = new Content([
             'catagory'     =>  $request->get('catagory'),
             'title'    =>  $request->get('title'),
@@ -100,7 +95,8 @@ class ContentController extends Controller
 
     public function update(Request $request, $id)
     {
-        $content = Content::findOrFail($id);
+//        $content = Content::findOrFail($id);
+        $content = DB::select('SELECT * FROM contents WHERE id = ?', [$id]);
 
         $content->catagory = $request->input('catagory');
         $content->title = $request->input('title');
