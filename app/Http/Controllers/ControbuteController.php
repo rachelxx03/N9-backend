@@ -11,7 +11,7 @@ class ControbuteController extends Controller
 
 
     /**
-     * Store a newly created resource in storage.
+     * lưu thông tin vào data base
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse

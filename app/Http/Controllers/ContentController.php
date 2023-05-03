@@ -11,17 +11,20 @@ use Illuminate\Support\Facades\Log;
 class ContentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * lấy thông tin của tất cả các bài  cho API
      *
-     * @return mixed[]
+     * @return  json
      */
 
     public function getAll (){
         $results = DB::select('SELECT * FROM contents');
         return response()->json($results);
-
-
     }
+    /**
+     * lấy thông tin của tất cả các bài thành 1 array
+     *
+     * @return  json
+     */
     public function index()
 
     {
@@ -33,7 +36,11 @@ class ContentController extends Controller
         return $contents;
         //
     }
-
+    /**
+     *  lấy thông tin của 1 bài dựa trên category
+     *
+     * @return JsonResponse
+     */
     public function getCatagory(Request $request): \Illuminate\Http\JsonResponse
     {
         $category = $request->input('catagory');
@@ -44,27 +51,22 @@ class ContentController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     *  lấy thông tin của 1 bài dựa trên ID
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
 
     public function getObjectById(Request $request) {
-
         $id = $request->input('id');
-
         $ListOfObject = $this->index();
         foreach ( $ListOfObject as $object)
             if($object['id'] == $id)
                 return   response()->json($object);
         return null;
     }
-    public function create()
-    {
 
-    }
     /**
-     * Store a newly created resource in storage.
+     * lưu thông tin vào data base
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -91,7 +93,12 @@ class ContentController extends Controller
             'message' => 'Data save successfully'
         ]);        //
     }
-
+    /**
+     * update thông tin vào database
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
 
     public function update(Request $request, $id)
     {
@@ -113,14 +120,5 @@ class ContentController extends Controller
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+
 }
